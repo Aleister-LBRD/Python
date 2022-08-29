@@ -9,14 +9,16 @@ Original file is located at
 
 # Game Ping-Pong
 
+# Importando bibliotecas
 from tkinter import *
 import random
 import time
 
+# Definindo Level
 level = int(input("Qual nível você gostaria de jogar? 1/2/3/4/5 \n"))
 length = 500/level
 
-
+# Definindo dados da Janela
 root = Tk()
 root.title("Ping Pong")
 root.resizable(0,0)
@@ -27,7 +29,6 @@ canvas.pack()
 
 root.update()
 
-# Variável
 count = 0
 lost = False
 
