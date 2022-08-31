@@ -32,6 +32,7 @@ root.update()
 count = 0
 lost = False
 
+# Definindo uma classe
 class Bola:
     def __init__(self, canvas, Barra, color):
         self.canvas = canvas
