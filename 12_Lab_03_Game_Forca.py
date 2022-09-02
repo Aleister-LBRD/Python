@@ -1,7 +1,6 @@
 # PROJETO HANGMAN
 # Importando Biblioteca
 import random
-from re import A
 
 # Desenhando Board
 board = [
@@ -77,12 +76,6 @@ board = [
 ''']
 
 
-# Buscar Palavra
-with open('Arquivos/palavras.txt', "r") as arquivo:
-    lista = arquivo.read().split('\n')
-
-palavra = random.choice(lista)
-
 # Classe
 class Hangman():
 
@@ -111,22 +104,30 @@ class Hangman():
         else:
             return False
             
-    # Status
+    # Status do Game
     def game_status (self):
         print(board[len(self.letra_errada)])
         print(f'\nPalavra: {self.palavra_oculta()}')
         print(f'\nLetras Corretas: {self.letra_correta}')
         print(f'Letras Erradas: {self.letra_errada}')
 
+    # Status do Player
     def player_status(self):
         if len(self.letra_correta) == len(self.palavra):
             print('\nParabens. Voce Ganhou!')
         elif len(self.letra_errada) == 6:
             print('\nInfelizmente não foi dessa vez, tente novamente!')
+            print(f'\nA palavra era: "{self.palavra}"')
         else:
             return False
 
-# Main
+# Buscar Palavra
+with open('Arquivos/palavras.txt', "r") as arquivo:
+    lista = arquivo.read().split('\n')
+
+palavra = random.choice(lista)
+
+# Main - Compilacao das funcoes
 def main():
 # Chamar Classe
     game = Hangman(palavra)
@@ -141,4 +142,3 @@ def main():
 # Executa o Programa
 if __name__ == '__main__':
     main()
-    
