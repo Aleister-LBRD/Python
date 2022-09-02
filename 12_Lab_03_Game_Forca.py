@@ -1,10 +1,9 @@
-# Hangman Game (Jogo da Forca) 
-# Programação Orientada a Objetos
-
-# Import
+# PROJETO HANGMAN
+# Importando Biblioteca
 import random
+from re import A
 
-# Board
+# Desenhando Board
 board = [
 '''
 >>>>>>> HANGMAN <<<<<<<
@@ -78,84 +77,66 @@ board = [
 ''']
 
 
-# INICIO DA CLASSE
-class Hangman:
+# Buscar Palavra
+with open('Arquivos/palavras.txt', "r") as arquivo:
+    lista = arquivo.read().split('\n')
 
-	# Método Construtor
-	def __init__(self, word):
-		self.word = word
-		self.missed_letters = []
-		self.guessed_letters = []
+palavra = random.choice(lista)
 
-	# Método Esconde Palavra
-	def hide_word(self):
-		rtn = ''
-		for letter in self.word:
-			if letter not in self.guessed_letters:
-				rtn += '_'
-			else:
-				rtn += letter
-		return rtn
-		
-	# Método Inserir Letras
-	def guess(self, letter):
-		if letter in self.word and letter not in self.guessed_letters:
-			self.guessed_letters.append(letter)
-		elif letter not in self.word and letter not in self.missed_letters:
-			self.missed_letters.append(letter)
-		else:
-			return False
-		return True
 
-	# Método Vencer
-	def hangman_won(self):
-		if '_' not in self.hide_word():
-			return True
-		return False
-		
-	# Método Terminar
-	def hangman_over(self):
-		return self.hangman_won() or (len(self.missed_letters) == 6)
-		
-	# Método Status
-	def print_game_status(self):
-		print (board[len(self.missed_letters)])
-		print ('\nPalavra: ' + self.hide_word())
-		print (f'\nLetras erradas: {self.missed_letters}') 
-		print (f'\nLetras corretas: {self.guessed_letters}')
-# FINAL DA CLASSE
+# Classe
+class Hangman():
 
-# Método Busca Palavra
-def rand_word():
-        with open("Arquivos/palavras.txt", "rt") as f:
-                bank = f.readlines()
-        return bank[random.randint(0,len(bank))].strip()
+    # Construtor
+    def __init__(self,palavra):
+        self.palavra = palavra
+        self.letra_correta = []
+        self.letra_errada = []
 
-# Método Main - Execução do Programa
-def main():
+    # Ocultar Palavra
+    def palavra_oculta(self):
+        oculto = ''
+        for i in self.palavra:
+            if i in self.letra_correta:
+                oculto += i + " "
+            else:
+                oculto += '_ '
+        return oculto
 
-	# Objeto
-	game = Hangman(rand_word())
+    # Letra
+    def letra (self, letra):
+        if letra in self.palavra:
+            self.letra_correta.append(letra)
+                        
+        elif letra not in self.palavra:
+            self.letra_errada.append(letra)
+        else:
+            return False
+            
+    # Status
+    def game_status (self):
+        print(board[len(self.letra_errada)])
+        print(f'\nPalavra: {self.palavra_oculta()}')
+        print(f'\nLetras Corretas: {self.letra_correta}')
+        print(f'Letras Erradas: {self.letra_errada}')
 
-	# Enquanto o jogo não tiver terminado, print do status, solicita uma letra e faz a leitura do caracter
-	while not game.hangman_over():
-		game.print_game_status()
-		user_input = input('\nDigite uma letra: ')
-		game.guess(user_input)
+    def player_status(self):
+        if len(self.letra_correta) == len(self.palavra):
+            print('Parabens. Voce Ganhou!')
+        elif len(self.letra_errada) == 6:
+            print('Infelizmente não foi dessa vez, tente novamente!')
+        else:
+            return False
 
-	# Verifica o status do jogo
-	game.print_game_status()	
-
-	# De acordo com o status, imprime mensagem na tela para o usuário
-	if game.hangman_won():
-		print ('\nParabéns! Você venceu!!')
-	else:
-		print ('\nGame over! Você perdeu.')
-		print ('A palavra era ' + game.word)
-		
-	print ('\nFoi bom jogar com você! Agora vá estudar!\n')
-
-# Executa o programa		
-if __name__ == "__main__":
-	main()
+# Main
+# Chamar Classe
+game = Hangman(palavra)
+game.letra_errada.clear()
+game.letra_correta.clear()
+while len(game.letra_correta) < len(game.palavra) and len(game.letra_errada) < 6:
+    game.game_status()
+    game.letra(input('Insira uma Letra: '))
+else:
+    game.game_status()
+    game.player_status()
 
