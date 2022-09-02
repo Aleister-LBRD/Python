@@ -83,7 +83,6 @@ with open('Arquivos/palavras.txt', "r") as arquivo:
 
 palavra = random.choice(lista)
 
-
 # Classe
 class Hangman():
 
@@ -105,10 +104,9 @@ class Hangman():
 
     # Letra
     def letra (self, letra):
-        if letra in self.palavra:
+        if letra in self.palavra and letra not in self.letra_correta:
             self.letra_correta.append(letra)
-                        
-        elif letra not in self.palavra:
+        elif letra not in self.palavra and letra not in self.letra_errada:
             self.letra_errada.append(letra)
         else:
             return False
@@ -122,9 +120,9 @@ class Hangman():
 
     def player_status(self):
         if len(self.letra_correta) == len(self.palavra):
-            print('Parabens. Voce Ganhou!')
+            print('\nParabens. Voce Ganhou!')
         elif len(self.letra_errada) == 6:
-            print('Infelizmente não foi dessa vez, tente novamente!')
+            print('\nInfelizmente não foi dessa vez, tente novamente!')
         else:
             return False
 
