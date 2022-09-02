@@ -127,14 +127,17 @@ class Hangman():
             return False
 
 # Main
+def main():
 # Chamar Classe
-game = Hangman(palavra)
-game.letra_errada.clear()
-game.letra_correta.clear()
-while len(game.letra_correta) < len(game.palavra) and len(game.letra_errada) < 6:
-    game.game_status()
-    game.letra(input('Insira uma Letra: '))
-else:
-    game.game_status()
-    game.player_status()
+    game = Hangman(palavra)
+# Funcao Principal
+    while len(game.letra_correta) < len(game.palavra) and len(game.letra_errada) < 6:
+        game.game_status()
+        game.letra(input('Insira uma Letra: '))
+    else:
+        game.game_status()
+        game.player_status()
 
+# Executa o Programa
+if __name__ == '__main__':
+    main()
