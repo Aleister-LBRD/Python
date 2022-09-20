@@ -1,4 +1,4 @@
-# Calculadora em Python
+# Calculadora ESTRUTURAL
 
 print("**********Python Calculator**********")
 
